@@ -6,53 +6,7 @@ Estou desenvolvendo um novo plugin, [mobile_scanner](https://pub.dev/packages/mo
 
 # Scanner de QR Code
 
-[![pub package](https://img.shields.io/pub/v/qr_code_scanner?include_prereleases)](https://pub.dartlang.org/packages/qr_code_scanner)
-[![Join the chat](https://img.shields.io/discord/829004904600961054)](https://discord.gg/aZujk84f6V)
-[![GH Actions](https://github.com/juliuscanute/qr_code_scanner/workflows/dart/badge.svg)](https://github.com/juliuscanute/qr_code_scanner/actions)
-
 Um scanner de QR code que funciona tanto no iOS quanto no Android, embutindo nativamente a visualização da plataforma dentro do Flutter. A integração com o Flutter é fluida, muito melhor do que pular para uma Activity nativa ou um ViewController para realizar a leitura.
-
-## Capturas de Tela
-<table>
-<tr>
-<th colspan="2">
-Android
-</th>
-</tr>
-
-<tr>
-<td>
-<p align="center">
-<img src="https://raw.githubusercontent.com/juliuscanute/qr_code_scanner/master/.resources/android-app-screen-one.jpg" width="30%" height="30%">
-</p>
-</td>
-<td>
-<p align="center">
-<img src="https://raw.githubusercontent.com/juliuscanute/qr_code_scanner/master/.resources/android-app-screen-two.jpg" width="30%" height="30%">
-</p>
-</td>
-</tr>
-
-<tr>
-<th colspan="2">
-iOS
-</th>
-</tr>
-
-<tr>
-<td>
-<p align="center">
-<img src="https://raw.githubusercontent.com/juliuscanute/qr_code_scanner/master/.resources/ios-app-screen-one.png" width="30%" height="30%">
-</p>
-</td>
-<td>
-<p align="center">
-<img src="https://raw.githubusercontent.com/juliuscanute/qr_code_scanner/master/.resources/ios-app-screen-two.png" width="30%" height="30%">
-</p>
-</td>
-</tr>
-
-</table>
 
 ## Obter Código QR
 
