@@ -5,43 +5,41 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-void main() => runApp(const MaterialApp(home: MyHome()));
+void main() => runApp(const MaterialApp(home: MinhaPaginaInicial()));
 
-class MyHome extends StatelessWidget {
-  const MyHome({Key? key}) : super(key: key);
+class MinhaPaginaInicial extends StatelessWidget {
+  const MinhaPaginaInicial({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Flutter Demo Home Page')),
+      appBar: AppBar(title: const Text('Leitor de QR Code')),
       body: Center(
         child: ElevatedButton(
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const QRViewExample(),
+              builder: (context) => const ExemploLeitorQR(),
             ));
           },
-          child: const Text('qrView'),
+          child: const Text('Abrir Leitor QR Code'),
         ),
       ),
     );
   }
 }
 
-class QRViewExample extends StatefulWidget {
-  const QRViewExample({Key? key}) : super(key: key);
+class ExemploLeitorQR extends StatefulWidget {
+  const ExemploLeitorQR({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _QRViewExampleState();
+  State<StatefulWidget> createState() => _ExemploLeitorQRState();
 }
 
-class _QRViewExampleState extends State<QRViewExample> {
-  Barcode? result;
+class _ExemploLeitorQRState extends State<ExemploLeitorQR> {
+  Barcode? resultado;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
-  // In order to get hot reload to work we need to pause the camera if the platform
-  // is android, or resume the camera if the platform is iOS.
   @override
   void reassemble() {
     super.reassemble();
@@ -64,11 +62,11 @@ class _QRViewExampleState extends State<QRViewExample> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  if (result != null)
+                  if (resultado != null)
                     Text(
-                        'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                        'Tipo do Código: ${describeEnum(resultado!.format)}   Dados: ${resultado!.code}')
                   else
-                    const Text('Scan a code'),
+                    const Text('Escaneie um código'),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -83,7 +81,8 @@ class _QRViewExampleState extends State<QRViewExample> {
                             child: FutureBuilder(
                               future: controller?.getFlashStatus(),
                               builder: (context, snapshot) {
-                                return Text('Flash: ${snapshot.data}');
+                                return Text(
+                                    'Flash: ${snapshot.data == true ? "Ligado" : "Desligado"}');
                               },
                             )),
                       ),
@@ -99,9 +98,9 @@ class _QRViewExampleState extends State<QRViewExample> {
                               builder: (context, snapshot) {
                                 if (snapshot.data != null) {
                                   return Text(
-                                      'Camera facing ${describeEnum(snapshot.data!)}');
+                                      'Câmera: ${describeEnum(snapshot.data!)}');
                                 } else {
-                                  return const Text('loading');
+                                  return const Text('Carregando...');
                                 }
                               },
                             )),
@@ -118,7 +117,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                           onPressed: () async {
                             await controller?.pauseCamera();
                           },
-                          child: const Text('pause',
+                          child: const Text('Pausar',
                               style: TextStyle(fontSize: 20)),
                         ),
                       ),
@@ -128,7 +127,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                           onPressed: () async {
                             await controller?.resumeCamera();
                           },
-                          child: const Text('resume',
+                          child: const Text('Retomar',
                               style: TextStyle(fontSize: 20)),
                         ),
                       )
@@ -144,13 +143,10 @@ class _QRViewExampleState extends State<QRViewExample> {
   }
 
   Widget _buildQrView(BuildContext context) {
-    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
-            MediaQuery.of(context).size.height < 400)
+        MediaQuery.of(context).size.height < 400)
         ? 150.0
         : 300.0;
-    // To ensure the Scanner view is properly sizes after rotation
-    // we need to listen for Flutter SizeChanged notification and update controller
     return QRView(
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
@@ -170,7 +166,7 @@ class _QRViewExampleState extends State<QRViewExample> {
     });
     controller.scannedDataStream.listen((scanData) {
       setState(() {
-        result = scanData;
+        resultado = scanData;
       });
     });
   }
@@ -179,7 +175,7 @@ class _QRViewExampleState extends State<QRViewExample> {
     log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
     if (!p) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('no Permission')),
+        const SnackBar(content: Text('Sem permissão para acessar a câmera')),
       );
     }
   }
